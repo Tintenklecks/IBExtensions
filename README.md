@@ -1,3 +1,3 @@
 # IBExtensions
 
-A description of this package.
+A list of my personal extensions. Not meant for the public ...
