@@ -2,7 +2,7 @@
 
 import Foundation
 
- public extension Double {
+public extension Double {
     init(sign: Int, degree: Int, minute: Int, second: Int) {
         self.init()
         let result = Double(degree * 3600 + minute * 60 + second) / 3600
@@ -60,13 +60,22 @@ import Foundation
         return result
     }
     
-    var roundLatitude: Double {
+    func string(digits: Int, exact: Bool = false) -> String {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = exact ? digits : 0
+        formatter.maximumFractionDigits = digits
+        return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+    }
+    
+    var roundedToSecondsString: String {
+        self.roundLatitude.string(digits: 5)
+    }
+    
+    var roundedToSecond: Double {
         let factor: Double = 3600
         return (self * factor).rounded() / factor
     }
     
-    var roundLongitude: Double {
-        let factor: Double = 3600
-        return (self * factor).rounded() / factor
-    }
+    var roundLatitude: Double { self.roundedToSecond }
+    var roundLongitude: Double { self.roundedToSecond }
 }

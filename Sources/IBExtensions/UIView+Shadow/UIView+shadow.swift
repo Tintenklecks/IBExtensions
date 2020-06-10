@@ -1,16 +1,9 @@
-//
-//  UIView.swift
-//  SwiftyShadow
-//
-//  Created by luan on 7/23/17.
-//
-//
+#if os(iOS)
 
 import UIKit
 
 public extension UIView {
-    
-     func generateOuterShadow() {
+    func generateOuterShadow() {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = layer.cornerRadius
@@ -32,7 +25,7 @@ public extension UIView {
         superview?.addConstraints(constraints)
     }
     
-     func generateInnerShadow() {
+    func generateInnerShadow() {
         let view = SwiftyInnerShadowView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.shadowLayer.cornerRadius = layer.cornerRadius
@@ -50,11 +43,11 @@ public extension UIView {
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0.0),
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0),
             NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0),
-            ]
+        ]
         superview?.addConstraints(constraints)
     }
     
-     func generateEllipticalShadow() {
+    func generateEllipticalShadow() {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = layer.cornerRadius
@@ -77,8 +70,8 @@ public extension UIView {
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0.0),
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0),
             NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0),
-            ]
+        ]
         superview?.addConstraints(constraints)
     }
-    
 }
+#endif

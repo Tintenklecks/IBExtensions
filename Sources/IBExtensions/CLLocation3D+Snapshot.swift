@@ -26,6 +26,8 @@ public extension FileManager {
     }
 }
 
+#if os(iOS)
+
 public extension CLLocationCoordinate2D {
     func mkMapImage(
         radius: Double = 2000,
@@ -82,3 +84,4 @@ public extension CLLocationCoordinate2D {
         })
     }
 }
+#endif

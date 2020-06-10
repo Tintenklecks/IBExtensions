@@ -1,48 +1,42 @@
-//
-//  SwiftyInnerShadowLayer.swift
-//  SwiftyShadowExample
-//
-//  Created by luan on 7/11/17.
-//  Copyright © 2017 luantran. All rights reserved.
-//
+
+#if os(iOS)
 
 import UIKit
 
 public class SwiftyInnerShadowLayer: CAShapeLayer {
-    
     override init() {
         super.init()
         initShadow()
     }
     
-    override public init(layer: Any) {
+    public override init(layer: Any) {
         super.init(layer: layer)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initShadow()
     }
     
-    override public var shadowOffset: CGSize {
+    public override var shadowOffset: CGSize {
         didSet {
             setNeedsLayout()
         }
     }
     
-    override public var shadowOpacity: Float {
+    public override var shadowOpacity: Float {
         didSet {
             setNeedsLayout()
         }
     }
     
-    override public var shadowRadius: CGFloat {
+    public override var shadowRadius: CGFloat {
         didSet {
             setNeedsLayout()
         }
     }
     
-    override public var shadowColor: CGColor? {
+    public override var shadowColor: CGColor? {
         didSet {
             setNeedsLayout()
         }
@@ -56,7 +50,7 @@ public class SwiftyInnerShadowLayer: CAShapeLayer {
         borderColor = UIColor.clear.cgColor
     }
     
-    override public func layoutSublayers() {
+    public override func layoutSublayers() {
         super.layoutSublayers()
         
         generateShadowPath()
@@ -87,5 +81,5 @@ public class SwiftyInnerShadowLayer: CAShapeLayer {
         path.closeSubpath()
         self.path = path
     }
-    
 }
+#endif

@@ -24,6 +24,7 @@ public extension CLLocationCoordinate2D {
     }
 }
 
+@available(watchOS 6.2, *)
 public extension CLLocation {
     func shift(by delta: CGPoint) -> CLLocation {
         let newCoordinate = coordinate.shift(by: delta)

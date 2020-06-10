@@ -1,5 +1,5 @@
 //
-
+#if os(iOS)
 import CoreLocation
 import Foundation
 import UIKit
@@ -42,3 +42,4 @@ public extension CLLocation {
         mapApplication.open(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)
     }
 }
+#endif

@@ -1,11 +1,10 @@
- //
-  
- import Foundation
+//
+#if !os(watchOS)
+import Foundation
 import PhotosUI
 import SwiftUI
 
 public extension UIImage {
-    
     static func photorollCount(inRange startDate: Date, endDate: Date, closure: @escaping (Int) -> ()) {
         PHPhotoLibrary.requestAuthorization { authStatus in
             if authStatus == .authorized {
@@ -18,7 +17,7 @@ public extension UIImage {
             }
         }
     }
-    
+
     static func photorollIdentifiers(inRange startDate: Date, endDate: Date, onUpdate: @escaping ([String]) -> ()) {
         var assetIdentifiers: [String] = []
 
@@ -38,13 +37,10 @@ public extension UIImage {
             }
         }
     }
-    
-    
 
-
-    static func photoroll(with identifiers: [String], width: CGFloat = 200, height: CGFloat = 200,  onUpdate: @escaping (String, UIImage, Date?, Double?, Double?) -> ()) {
+    static func photoroll(with identifiers: [String], width: CGFloat = 200, height: CGFloat = 200, onUpdate: @escaping (String, UIImage, Date?, Double?, Double?) -> ()) {
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
-        
+
         #if arch(i386) || arch(x86_64) // running on simulator
         if assets.count == 0 { return }
         let i = Int.random(in: 0..<assets.count)
@@ -52,13 +48,10 @@ public extension UIImage {
         #else
         let range = 0..<assets.count
         #endif
-        
-        
+
         for index in range { // TODO: ***
             let asset = assets[index]
             let imageId: String = index < identifiers.count ? identifiers[index] : UUID().uuidString // TODO: UUIDString OK? ***###
-
-
 
             let manager = PHImageManager.default()
             let options = PHImageRequestOptions()
@@ -68,15 +61,13 @@ public extension UIImage {
 
             manager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: .aspectFit, options: options) { image, whatsoever in
 
-                if let image = image  {
+                if let image = image {
                     onUpdate(imageId, image, asset.creationDate, asset.location?.coordinate.latitude, asset.location?.coordinate.longitude)
                 } else {
                     print("ERROR - \(imageId) - \(whatsoever.debugDescription)")
-
                 }
             }
         }
     }
-    
-
 }
+#endif

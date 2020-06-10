@@ -1,24 +1,17 @@
-//
-//  SwiftyInnerShadowView.swift
-//  SwiftyShadowExample
-//
-//  Created by luan on 7/11/17.
-//  Copyright © 2017 luantran. All rights reserved.
-//
+#if os(iOS)
 
 import UIKit
 
 open class SwiftyInnerShadowView: UIView {
-
     open var shadowLayer = SwiftyInnerShadowLayer()
-
-    override open var bounds: CGRect {
+    
+    open override var bounds: CGRect {
         didSet {
             shadowLayer.frame = bounds
         }
     }
     
-    override open var frame: CGRect {
+    open override var frame: CGRect {
         didSet {
             shadowLayer.frame = bounds
         }
@@ -36,7 +29,7 @@ open class SwiftyInnerShadowView: UIView {
         initShadowLayer()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initShadowLayer()
     }
@@ -44,5 +37,5 @@ open class SwiftyInnerShadowView: UIView {
     fileprivate func initShadowLayer() {
         layer.addSublayer(shadowLayer)
     }
-    
 }
+#endif
