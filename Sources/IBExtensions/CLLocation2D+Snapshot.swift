@@ -29,9 +29,18 @@ public extension FileManager {
 #if os(iOS)
 
 public extension CLLocationCoordinate2D {
+    
+    static func clearCachedImages() {
+        let fileManager = FileManager.default
+        try? fileManager.removeItem(at: FileManager.fileURL(name: "maps", inCache: true))
+
+    }
+    
+    
     func mkMapImage(
-        radius: Double = 2000,
-        size: CGSize = CGSize(width: 300, height: 300),
+        radius: Double = 500,
+        size: CGSize = CGSize(width: 600, height: 400),
+        mapType: MKMapType = .satelliteFlyover,
         closure: @escaping (UIImage) -> ()) {
         let darkMode: Bool = UIScreen.main.traitCollection.userInterfaceStyle == .dark
 
@@ -44,9 +53,9 @@ public extension CLLocationCoordinate2D {
             closure(image)
             return
         } else {
-            self.screenshot(radius: radius, size: size) { image in
+            self.screenshot(radius: radius, size: size, mapType: mapType) { image in
                 if let image = image {
-                    if let data = image.pngData() {
+                    if let data = image.jpegData(compressionQuality: 0.9) {
                         try? data.write(to: fileUrl)
                     }
 
@@ -56,7 +65,7 @@ public extension CLLocationCoordinate2D {
         }
     }
 
-    func screenshot(radius meter: Double, size: CGSize = CGSize(width: 300, height: 300), closure: @escaping (UIImage?) -> ()) {
+    func screenshot(radius meter: Double, size: CGSize = CGSize(width: 300, height: 300), mapType: MKMapType = .satellite, closure: @escaping (UIImage?) -> ()) {
         let mapSnapshotOptions = MKMapSnapshotter.Options()
 
         // Set the region of the map that is rendered.
@@ -66,6 +75,9 @@ public extension CLLocationCoordinate2D {
 
         // Set the scale of the image. We'll just use the scale of the current device, which is 2x scale on Retina screens.
         mapSnapshotOptions.scale = UIScreen.main.scale
+        
+//        let camera = MKMapCamera(lookingAtCenter: self, fromDistance: 1000, pitch: 400, heading: 0)
+//        mapSnapshotOptions.camera = camera
 
         mapSnapshotOptions.traitCollection = UIScreen.main.traitCollection
 
@@ -76,6 +88,7 @@ public extension CLLocationCoordinate2D {
         // Show buildings and Points of Interest on the snapshot
         mapSnapshotOptions.showsBuildings = true
         mapSnapshotOptions.pointOfInterestFilter = MKPointOfInterestFilter(excluding: [])
+        mapSnapshotOptions.mapType = mapType
 //        mapSnapshotOptions.showsPointsOfInterest = true
 
         let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
