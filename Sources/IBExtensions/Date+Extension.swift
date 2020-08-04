@@ -182,7 +182,7 @@ public extension Date {
     var jsonDateTime: String { // 2020-03-23T07:33:22+0000
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
-        return formatter.string(from: Date()) + "+0000"
+        return formatter.string(from: self) + "+0000"
     }
     
     var startOfDay: Date {

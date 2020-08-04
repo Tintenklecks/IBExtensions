@@ -9,7 +9,7 @@ public extension FileManager {
 
 public extension String {
     func saveToLog(append: Bool = true) {
-        print(self)
+        print("Logged:\n\(self)")
         let content = self + (append ? "\n" + String.readFromLog() : "")
         try? content.write(to: FileManager.logUrl, atomically: true, encoding: .utf8)
     }

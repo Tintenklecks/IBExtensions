@@ -45,11 +45,13 @@ public extension Double {
             number = number % 3600
         }
         
-        result += "\(Int(number / 60))m"
+        let longForm = result == ""
+        
+        result += "\(Int(number / 60))\(longForm ? " min" : "m")"
         number = number % 60
         
         if withSeconds {
-            result += " \(number)s"
+            result += " \(number)\(longForm ? " sec" : "s")"
         }
         if condensed {
             result = result.replacingOccurrences(of: " ", with: "")

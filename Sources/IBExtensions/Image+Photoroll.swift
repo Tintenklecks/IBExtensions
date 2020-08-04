@@ -38,10 +38,11 @@ public extension UIImage {
         }
     }
 
-    static func photoroll(with identifiers: [String], width: CGFloat = 200, height: CGFloat = 200, onUpdate: @escaping (String, UIImage, Date?, Double?, Double?) -> ()) {
+    static func photoroll(with identifiers: [String], width: CGFloat = 150, height: CGFloat = 150, onUpdate: @escaping (String, UIImage, Date?, Double?, Double?) -> ()) {
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
 
-        #if arch(i386) || arch(x86_64) // running on simulator
+        // TODO: -Remove comments-
+        #if targetEnvironment(simulator)
         if assets.count == 0 { return }
         let i = Int.random(in: 0..<assets.count)
         let range = i...i
@@ -51,7 +52,7 @@ public extension UIImage {
 
         for index in range { // TODO: ***
             let asset = assets[index]
-            let imageId: String = index < identifiers.count ? identifiers[index] : UUID().uuidString // TODO: UUIDString OK? ***###
+            let imageId: String = index < identifiers.count ? identifiers[index] : UUID().uuidString 
 
             let manager = PHImageManager.default()
             let options = PHImageRequestOptions()

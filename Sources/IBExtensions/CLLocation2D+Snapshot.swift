@@ -4,28 +4,6 @@ import CoreLocation
 import Foundation
 import MapKit
 
-public extension FileManager {
-    static func documentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-
-    static func cacheDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-
-    static func fileURL(name: String, inCache: Bool = false) -> URL {
-        if inCache {
-            return self.cacheDirectory().appendingPathComponent(name)
-        } else {
-            return self.documentsDirectory().appendingPathComponent(name)
-        }
-    }
-}
-
 #if os(iOS)
 
 public extension CLLocationCoordinate2D {
@@ -97,14 +75,12 @@ public extension CLLocationCoordinate2D {
                 let image = UIGraphicsImageRenderer(size: mapSnapshotOptions.size).image { _ in
                     snapshot.image.draw(at: .zero)
 
-                    if let pinImage = UIImage(systemName: "arrow.down.left")?.withTintColor(.white) { // UIImage(named: "positionMarker") {
+                    if let pinImage = UIImage(named: "positionMarker") { //   UIImage(systemName: "arrow.down.left")?.withTintColor(.white) { // UIImage(named: "positionMarker") {
                         var point = snapshot.point(for: self)
 
                         if CGRect(origin: .zero, size: mapSnapshotOptions.size).contains(point) {
-//                            point.x -= pinImage.size.width / 2
-//                            point.y -= pinImage.size.height / 2
-//                            point.x -= pinImage.size.width / 2
-                            point.y -= pinImage.size.height 
+                            point.x -= pinImage.size.width / 2
+                            point.y -= pinImage.size.height / 2
                             pinImage.draw(at: point)
                         }
                     }
@@ -112,28 +88,6 @@ public extension CLLocationCoordinate2D {
 
                 closure(image)
 
-//                var dict: [String: Int] = [:]
-//                for _ in 0...100 {
-//                    if let hex = image.randomPixelColor().toHex() {
-//                        if let count = dict[hex] {
-//                            dict[hex] = count + 1
-//                        } else {
-//                            dict[hex] = 1
-//                        }
-//                    }
-//                }
-//                for (_, value) in dict {
-//                    if value > 80 {
-//                        if altitude < 1000 {
-//                            self.screenshot(altitude: altitude + 100, pitch: pitch / 3 * 2, size: size, mapType: mapType, closure: closure)
-//                        } else {
-//                            closure(nil)
-//                        }
-//                        return
-//                    }
-//                }
-//                print("***",location.latitude.latitudeString, location.longitude.longitudeString, altitude, pitch)
-                //               closure(image)
             }
         })
     }
