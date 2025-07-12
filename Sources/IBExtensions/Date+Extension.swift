@@ -194,7 +194,8 @@ public extension Date {
         if let date = Calendar.current.date(from: components) {
             return date
         }
-        return self
+        // Fallback to Calendar.startOfDay if date creation fails
+        return Calendar.current.startOfDay(for: self)
         
     }
     

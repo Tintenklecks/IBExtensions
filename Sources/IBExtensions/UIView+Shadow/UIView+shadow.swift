@@ -73,5 +73,22 @@ public extension UIView {
         ]
         superview?.addConstraints(constraints)
     }
+    
+    /// Remove all shadow views that were created by the generate shadow methods
+    func removeShadowViews() {
+        guard let superview = superview else { return }
+        
+        // Find and remove shadow views
+        for subview in superview.subviews {
+            if subview is SwiftyInnerShadowView {
+                subview.removeFromSuperview()
+            } else if subview !== self &&
+                      subview.layer.shadowOpacity > 0 &&
+                      subview.backgroundColor == .white {
+                // This is likely a shadow view created by generate methods
+                subview.removeFromSuperview()
+            }
+        }
+    }
 }
 #endif

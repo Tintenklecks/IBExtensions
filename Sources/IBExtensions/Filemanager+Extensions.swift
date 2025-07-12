@@ -10,14 +10,20 @@ import Foundation
 public extension FileManager {
     static func documentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
+        guard let documentsDirectory = paths.first else {
+            // Fallback to temporary directory if documents directory is not accessible
+            return FileManager.default.temporaryDirectory
+        }
         return documentsDirectory
     }
 
     static func cacheDirectory() -> URL {
         let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
+        guard let cacheDirectory = paths.first else {
+            // Fallback to temporary directory if cache directory is not accessible
+            return FileManager.default.temporaryDirectory
+        }
+        return cacheDirectory
     }
 
     static func fileURL(name: String, inCache: Bool = false) -> URL {
