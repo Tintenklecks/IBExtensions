@@ -3,8 +3,17 @@
  import Foundation
 
 public extension FileManager {
-    static let documentDirectoryURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-    static let logUrl = documentDirectoryURL.appendingPathComponent("log.log")
+    static var documentDirectoryURL: URL {
+        do {
+            return try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        } catch {
+            // Fallback to temporary directory if documents directory is not accessible
+            return FileManager.default.temporaryDirectory
+        }
+    }
+    static var logUrl: URL {
+        return documentDirectoryURL.appendingPathComponent("log.log")
+    }
 }
 
 public extension String {

@@ -21,7 +21,7 @@ public extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage!
+        return newImage ?? self
     }
     
      func scale(image: UIImage, by scale: CGFloat) -> UIImage {

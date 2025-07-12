@@ -18,8 +18,9 @@ public extension CLLocationCoordinate2D {
     }
 
     static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        guard lhs.latitude == rhs.latitude else { return false }
-        guard lhs.longitude == rhs.longitude else { return false }
+        let epsilon: Double = 1e-10
+        guard abs(lhs.latitude - rhs.latitude) < epsilon else { return false }
+        guard abs(lhs.longitude - rhs.longitude) < epsilon else { return false }
         return true
     }
 }

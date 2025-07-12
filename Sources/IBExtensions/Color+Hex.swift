@@ -9,7 +9,21 @@ extension Color {
             _ = string.removeFirst()
         }
         
-        // Double the last value if incomplete hex
+        // Validate hex string contains only valid hex characters
+        let hexCharacterSet = CharacterSet(charactersIn: "0123456789ABCDEFabcdef")
+        guard string.rangeOfCharacter(from: hexCharacterSet.inverted) == nil else {
+            // Invalid hex characters found, fallback to white
+            self.init(.sRGB, red: 1, green: 1, blue: 1, opacity: 1)
+            return
+        }
+        
+        // Ensure minimum length of 1
+        guard !string.isEmpty else {
+            self.init(.sRGB, red: 1, green: 1, blue: 1, opacity: 1)
+            return
+        }
+        
+        // Double the last value if incomplete hex and length is odd
         if !string.count.isMultiple(of: 2), let last = string.last {
             string.append(last)
         }
